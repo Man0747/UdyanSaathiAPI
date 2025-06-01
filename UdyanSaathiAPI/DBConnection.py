@@ -4,8 +4,12 @@ import environ
 
 class DBConnection:
     
+
+    # keyword = "Azure"
+
     keyword = "Azure"
     # keyword = "Azure"
+
     # CONDITION TO CHECK THE DATABASE KEYWORD TO USE
     if(keyword == "Azure"):
         #CONFIGURATION FOR DATABASE CONNECTION 

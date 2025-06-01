@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-u16_bybk!q&6zj)-7t7o3_))e4=r!1803df4jj#ke*y$s%d@0=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['udyansaathiapi.azurewebsites.net', 'yourcustomdomain.com', 'localhost', '127.0.0.1','apiudyansaathi.azurewebsites.net']
+
+ALLOWED_HOSTS = ['udyansaathiapi.azurewebsites.net', 'yourcustomdomain.com', 'localhost', '127.0.0.1','udyansaathiapi-bnbdc2defyd6cjde.centralindia-01.azurewebsites.net']
+
 
 
 # Application definition
