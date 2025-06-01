@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-u16_bybk!q&6zj)-7t7o3_))e4=r!1803df4jj#ke*y$s%d@0=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ['udyansaathiapi.azurewebsites.net', 'yourcustomdomain.com', 'localhost', '127.0.0.1','udyansaathiapi-bnbdc2defyd6cjde.centralindia-01.azurewebsites.net']
+
 
 
 # Application definition
@@ -131,4 +133,8 @@ STATIC_URL = 'static/'
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "https://udyaansaathi.onrender.com",
+    "https://kind-field-032d6fc00.5.azurestaticapps.net"
+]
