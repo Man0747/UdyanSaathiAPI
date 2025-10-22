@@ -92,3 +92,7 @@ def get_Stations_Coordinates(request):
     StationCoordinatesData = PollutionDAO.find_StationsCoordinates(pol_Station)
     serializer = StationsCoordinatesSerializer(StationCoordinatesData, many=True) #USED DO CONVERT DATA TO JSON
     return Response(serializer.data,status=status.HTTP_200_OK) #RETURNS THE DATA 
+
+@api_view(['GET'])
+def get_HealthOfApi(request):
+    return Response({"status":"UdyanSaathiAPI is running fine"},status=status.HTTP_200_OK)
