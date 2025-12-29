@@ -76,16 +76,41 @@ WSGI_APPLICATION = 'UdyanSaathi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'udyaansaathidata',
-#         'USER': 'root',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',  # or the hostname where your MySQL server is running
-#         'PORT': '3306',      # or the port on which your MySQL server is listening
-#     }
-# }
+# Dual database configuration: Local SQLite + Production Azure MySQL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'production': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'UdyanSaathiData',
+        'USER': 'udyansaathiadmin',
+        'PASSWORD': 'Password@123',
+        'HOST': 'udyansaathidbserver.mysql.database.azure.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'ssl': {'ssl-mode': 'preferred'},
+            'charset': 'utf8mb4',
+        },
+        'CONN_MAX_AGE': 300,  # Keep connections alive for 5 minutes
+    }
+}
+
+# Database router to direct reads to production, writes to local
+DATABASE_ROUTERS = ['UdyanSaathiAPI.db_router.ProductionRouter']
+
+# Cache configuration (in-memory cache with fallback)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'udyansaathi-cache',
+        'TIMEOUT': 300,  # 5 minutes default
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
