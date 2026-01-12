@@ -14,8 +14,8 @@ class PollutionDAO:
         cursor = connection.cursor()
 
         query = "SELECT distinct State,Station,City,AQI,PM25,PM10,NO2,OZONE,CO,AQI_Quality,Pol_Date FROM\
-                 UdyanSaathiData.hourlydata WHERE Station = %s and Pol_Date in\
-                 (SELECT Max(Pol_Date) FROM UdyanSaathiData.hourlydata WHERE Station = %s)\
+                 udyaansaathidata.hourlydata WHERE Station = %s and Pol_Date in\
+                 (SELECT Max(Pol_Date) FROM udyaansaathidata.hourlydata WHERE Station = %s)\
         order by AQI desc\
                  limit 1;"
         cursor.execute(query, (pol_station,pol_station,))
@@ -56,7 +56,7 @@ class PollutionDAO:
         connection = dbconnection.database_connection()
         cursor = connection.cursor()
         stationName = '%' + stationName + '%'
-        query = "SELECT DISTINCT Station FROM UdyanSaathiData.stations WHERE City LIKE %s OR Station LIKE %s;"
+        query = "SELECT DISTINCT Station FROM udyaansaathidata.stations WHERE City LIKE %s OR Station LIKE %s;"
         
         cursor.execute(query, (stationName,stationName,))
         results = cursor.fetchall()
@@ -81,7 +81,7 @@ class PollutionDAO:
         connection = dbconnection.database_connection()
         cursor = connection.cursor()
        
-        query = "SELECT Distinct City FROM UdyanSaathiData.stations "
+        query = "SELECT Distinct City FROM udyaansaathidata.stations "
        
         # cursor.execute(query, (stationName,stationName,))
         cursor.execute(query, ())
@@ -111,11 +111,11 @@ class PollutionDAO:
         # stationName = '%' + stationName + '%'
         
         query = "SELECT City, MAX(AQI) AS AQI, MAX(PM25) AS PM25, MAX(PM10) AS PM10, MAX(CO) AS CO, MAX(OZONE) AS OZONE, MAX(SO2) AS SO2, MAX(NO2) AS NO2, MAX(NH3) AS NH3\
-                FROM UdyanSaathiData.pollutiondata\
+                FROM udyaansaathidata.pollutiondata\
                 WHERE Pol_Date BETWEEN (\
-                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM udyaansaathidata.pollutiondata\
                     ) AND (\
-                        SELECT MAX(Pol_Date) FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) FROM udyaansaathidata.pollutiondata\
                     )\
                 GROUP BY City\
                 HAVING \
@@ -165,11 +165,11 @@ class PollutionDAO:
         # stationName = '%' + stationName + '%'
         
         query = "SELECT City, Min(AQI) AS AQI, Min(PM25) AS PM25, Min(PM10) AS PM10, Min(CO) AS CO, Min(OZONE) AS OZONE, Min(SO2) AS SO2, Min(NO2) AS NO2, Min(NH3) AS NH3\
-                FROM UdyanSaathiData.pollutiondata\
+                FROM udyaansaathidata.pollutiondata\
                 WHERE Pol_Date BETWEEN (\
-                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM udyaansaathidata.pollutiondata\
                     ) AND (\
-                        SELECT MAX(Pol_Date) FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) FROM udyaansaathidata.pollutiondata\
                     )\
                 GROUP BY City\
                 HAVING \
@@ -230,13 +230,13 @@ class PollutionDAO:
                     ROUND(AVG(CO), 2) AS CO,\
                     ROUND(AVG(OZONE), 2) AS OZONE\
                 FROM\
-                    UdyanSaathiData.pollutiondata\
+                    udyaansaathidata.pollutiondata\
                 WHERE\
                     City = %s\
                     AND Pol_Date BETWEEN (\
-                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM udyaansaathidata.pollutiondata\
                     ) AND (\
-                        SELECT MAX(Pol_Date) FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) FROM udyaansaathidata.pollutiondata\
                     )\
                 GROUP BY\
                     City, Pol_Date\
@@ -285,12 +285,12 @@ class PollutionDAO:
                 ROUND(AVG(CO), 2) AS CO,\
                 ROUND(AVG(OZONE), 2) AS OZONE\
                 FROM\
-                UdyanSaathiData.pollutiondata\
+                udyaansaathidata.pollutiondata\
                 WHERE\
                 Pol_Date BETWEEN (\
-                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) - INTERVAL %s DAY FROM udyaansaathidata.pollutiondata\
                     ) AND (\
-                        SELECT MAX(Pol_Date) FROM UdyanSaathiData.pollutiondata\
+                        SELECT MAX(Pol_Date) FROM udyaansaathidata.pollutiondata\
                     )\
                 AND City IN ('Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Mumbai', 'Delhi')\
                 GROUP BY\
@@ -332,7 +332,7 @@ class PollutionDAO:
         # stationName = '%' + stationName + '%'
         
         query = "SELECT distinct Station,AQI,Pol_Date\
-                FROM UdyanSaathiData.pollutiondata\
+                FROM udyaansaathidata.pollutiondata\
                 WHERE Station = %s\
                 order by pol_date"
         
@@ -361,7 +361,7 @@ class PollutionDAO:
 
         # stationName = '%' + stationName + '%'
         
-        query = "SELECT * FROM UdyanSaathiData.mldata\
+        query = "SELECT * FROM udyaansaathidata.mldata\
                  where Station = %s;"
         
         cursor.execute(query,(pol_Station,))
@@ -402,13 +402,13 @@ class PollutionDAO:
                 hd.Latitude,\
                 hd.Pol_Date \
             FROM \
-                UdyanSaathiData.hourlydata AS hd\
+                udyaansaathidata.hourlydata AS hd\
             INNER JOIN (\
                 SELECT \
                     Station,\
                     MAX(Pol_Date) AS MaxPolDate \
                 FROM \
-                    UdyanSaathiData.hourlydata \
+                    udyaansaathidata.hourlydata \
                 GROUP BY \
                     Station\
             ) AS sub\
@@ -452,7 +452,7 @@ class PollutionDAO:
         connection = dbconnection.database_connection()
         cursor = connection.cursor()
 
-        query = "SELECT Station,Longitude,Latitude FROM UdyanSaathiData.stations where Station = %s Limit 1"
+        query = "SELECT Station,Longitude,Latitude FROM udyaansaathidata.stations where Station = %s Limit 1"
         cursor.execute(query, (pol_station,))
         results = cursor.fetchall()
         
